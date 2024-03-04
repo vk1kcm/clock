@@ -7,6 +7,10 @@ https://www.nayuki.io/page/full-screen-clock-javascript
 
 I've added the date and used the Airbus B617 font for readability.
 
+The clock uses the local time of your computer.  If your computer clock is wrong, then so i
+will this clock be wrong.  If you want to use this clock then make sure your computer
+is synchronised with a reliable time source.
+
 View the clock at;
 
 https://vk1kcm.github.io/clock/
