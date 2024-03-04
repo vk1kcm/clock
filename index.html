@@ -1,0 +1,81 @@
+<!--
+  - Full screen clock (24-hour)
+  - Copyright (c) 2022 Project Nayuki. All rights reserved.
+  - 
+  - https://www.nayuki.io/page/full-screen-clock-javascript
+  -->
+<!DOCTYPE html>
+<html style="height:100%; margin:0; padding:0">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<title>Clock</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=B612&display=swap" rel="stylesheet">
+		<style type="text/css">
+			/* Customizable font and colors */
+			html {
+				background: #000000;
+                font-family: 'B612', sans-serif;
+				font-weight: bold;
+				/* color: #FFFFFF; */
+				color: #FF1111;
+			}
+            .group {
+                display: flex;
+                justify-content: center;
+                flex-wrap: wrap;
+                align-items: center;
+                align-self: center;
+            }
+            .datetext {
+                justify-content: center;
+                align-self: center;
+            }
+
+		</style>
+	</head>
+	
+	<body style="display:flex; height:100%; margin:0; padding:0; justify-content:center; align-items:center">
+
+        <div class="group">
+            <span id="clocktext" class="clocktext" style="font-kerning:none"></span>
+		    <span id="datetext" class="datetext" style="font-kerning:none"></span>
+    	</div>	
+
+		<script>
+			"use strict";
+			
+			let textElem = document.getElementById("clocktext");
+			let dateElem = document.getElementById("datetext");
+			const targetWidth = 0.9;  // Proportion of full screen width
+			let curFontSize = 20;  // Do not change
+			
+			function updateClock() {
+				const d = new Date();
+				let s = "";
+				s += (10 > d.getHours  () ? "0" : "") + d.getHours  () + ":";
+				s += (10 > d.getMinutes() ? "0" : "") + d.getMinutes();
+				textElem.textContent = s;
+                // dateElem.textContent = d.toDateString();
+                dateElem.textContent = new Intl.DateTimeFormat('en-AU', {weekday: 'short', year: "numeric", month: "short", day: "numeric"}).format(d);
+				setTimeout(updateClock, 60000 - d.getTime() % 60000 + 100);
+			}
+			
+			function updateTextSize() {
+				for (let i = 0; 3 > i; i++) {  // Iterate for better better convergence
+					curFontSize *= targetWidth / (textElem.offsetWidth / textElem.parentNode.offsetWidth);
+					textElem.style.fontSize = curFontSize + "pt";
+					dateElem.style.fontSize = curFontSize/3 + "pt";
+				}
+			}
+			
+			updateClock();
+			updateTextSize();
+			window.addEventListener("resize", updateTextSize);
+            document.addEventListener('DOMContentLoaded', (event) => {
+                updateTextSize();
+            })
+		</script>
+	</body>
+</html>
